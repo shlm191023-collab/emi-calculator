@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1E1B4B, #4C1D95);
+  color: white;
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.card {
+  background: rgba(255,255,255,0.08);
+  padding: 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.result-box {
+  background: linear-gradient(90deg, #3B82F6, #22D3EE);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.result-box h2 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.value {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+input[type=range] {
+  width: 100%;
+}
