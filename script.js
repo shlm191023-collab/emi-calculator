@@ -4,25 +4,22 @@ function formatCurrency(num) {
 
 function calculateEMI() {
   let P = document.getElementById("loan").value;
-  let r = document.getElementById("rate").value / 12 / 100;
-  let n = document.getElementById("years").value * 12;
+  let annualRate = document.getElementById("rate").value;
+  let years = document.getElementById("years").value;
+
+  let r = annualRate / 12 / 100;
+  let n = years * 12;
 
   let emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
 
   document.getElementById("emi").innerText = formatCurrency(Math.round(emi));
   document.getElementById("loanValue").innerText = formatCurrency(P);
-  document.getElementById("rateValue").innerText = document.getElementById("rate").value + "%";
-  document.getElementById("yearsValue").innerText = document.getElementById("years").value;
+  document.getElementById("rateValue").innerText = annualRate + "%";
+  document.getElementById("yearsValue").innerText = years;
 }
 
 document.querySelectorAll("input").forEach(input => {
   input.addEventListener("input", calculateEMI);
-});
-
-document.querySelectorAll("input").forEach(input => {
-  input.addEventListener("input", () => {
-    input.style.background = `linear-gradient(to right, #22d3ee 0%, #22d3ee ${input.value / input.max * 100}%, #334155 ${input.value / input.max * 100}%, #334155 100%)`;
-  });
 });
 
 calculateEMI();
