@@ -59,14 +59,14 @@ body {
   
   box-shadow: 0 10px 30px rgba(34,211,238,0.3);
 }*/
-/*.result-box h2 {
+.result-box h2 {
   font-size: 42px;
   margin: 0;
-}*/
-.result-box h2 {
+}
+/*.result-box h2 {
   font-size: 56px;
   font-weight: 600;
-}
+}*/
 .result-box span {
   font-size: 14px;
   opacity: 0.9;
