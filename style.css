@@ -38,8 +38,8 @@ body {
   border: 1px solid rgba(255,255,255,0.1);
   backdrop-filter: blur(20px);
   box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+  margin-bottom: 20px; /* 👈 ADD THIS */
 }
-
 /* RESULT */
 .result-box {
   background: linear-gradient(135deg, #3b82f6, #22d3ee);
@@ -110,10 +110,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .content h3 {
-  margin-top: 25px;
-}
-
-.content a {
+  margin-top: 20px;
   color: #22d3ee;
+  font-size: 18px;
+}
+.content a {
+  color: #38bdf8;
   text-decoration: none;
 }
