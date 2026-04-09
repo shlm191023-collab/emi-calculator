@@ -19,4 +19,10 @@ document.querySelectorAll("input").forEach(input => {
   input.addEventListener("input", calculateEMI);
 });
 
+document.querySelectorAll("input").forEach(input => {
+  input.addEventListener("input", () => {
+    input.style.background = `linear-gradient(to right, #22d3ee 0%, #22d3ee ${input.value / input.max * 100}%, #334155 ${input.value / input.max * 100}%, #334155 100%)`;
+  });
+});
+
 calculateEMI();
