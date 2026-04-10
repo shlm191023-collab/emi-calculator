@@ -33,6 +33,31 @@ function animateEMI(value) {
   
   animateEMI(emi);
 } */
+function generateTable(P, r, n, emi) {
+  let balance = P;
+  let tbody = document.querySelector("#amortTable tbody");
+
+  tbody.innerHTML = "";
+
+for (let i = 1; i <= Math.min(n, 120); i++) {
+    let interest = balance * r;
+    let principal = emi - interest;
+    balance -= principal;
+
+    let row = `
+      <tr>
+        <td>${i}</td>
+        <td>${formatCurrency(emi)}</td>
+        <td>${formatCurrency(principal)}</td>
+        <td>${formatCurrency(interest)}</td>
+        <td>${formatCurrency(Math.abs(balance))}</td>
+      </tr>
+    `;
+
+    tbody.innerHTML += row;
+  }
+}
+
 function calculateEMI() {
   let P = Number(document.getElementById("loan").value);
   let annualRate = Number(document.getElementById("rate").value);
@@ -57,6 +82,7 @@ function calculateEMI() {
   updateChart(P, totalInterest);
 
   animateEMI(emi);
+  generateTable(P, r, n, emi);
 }
 function updateChart(principal, interest) {
   const ctx = document.getElementById('emiChart').getContext('2d');
@@ -84,30 +110,6 @@ function updateChart(principal, interest) {
       }
     }
   });
-}
-function generateTable(P, r, n, emi) {
-  let balance = P;
-  let tbody = document.querySelector("#amortTable tbody");
-
-  tbody.innerHTML = "";
-
-  for (let i = 1; i <= n; i++) {
-    let interest = balance * r;
-    let principal = emi - interest;
-    balance -= principal;
-
-    let row = `
-      <tr>
-        <td>${i}</td>
-        <td>${formatCurrency(emi)}</td>
-        <td>${formatCurrency(principal)}</td>
-        <td>${formatCurrency(interest)}</td>
-        <td>${formatCurrency(Math.abs(balance))}</td>
-      </tr>
-    `;
-
-    tbody.innerHTML += row;
-  }
 }
 
 document.querySelectorAll("input").forEach(input => {
