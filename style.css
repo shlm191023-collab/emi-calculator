@@ -205,3 +205,7 @@ input[type=range]::-webkit-slider-thumb {
 .numbers h3 {
   margin: 5px 0;
 }
+#emiChart {
+  height: 250px !important;
+  margin-top: 20px;
+}
