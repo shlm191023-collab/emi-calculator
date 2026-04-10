@@ -229,6 +229,10 @@ table {
   border-collapse: collapse;
   font-size: 14px;
 }
+.table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+}
 
 th, td {
   padding: 10px;
