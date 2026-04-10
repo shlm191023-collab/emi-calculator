@@ -146,7 +146,7 @@ function calculateEMI() {
   updateChart(P, totalInterest);
 
   animateEMI(emi);
-  generateTable(P, r, n, emi);
+  generateYearlyTable(P, r, n, emi);
 }
 function updateChart(principal, interest) {
   const ctx = document.getElementById('emiChart').getContext('2d');
