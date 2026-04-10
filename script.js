@@ -85,9 +85,35 @@ function updateChart(principal, interest) {
     }
   });
 }
+function generateTable(P, r, n, emi) {
+  let balance = P;
+  let tbody = document.querySelector("#amortTable tbody");
+
+  tbody.innerHTML = "";
+
+  for (let i = 1; i <= n; i++) {
+    let interest = balance * r;
+    let principal = emi - interest;
+    balance -= principal;
+
+    let row = `
+      <tr>
+        <td>${i}</td>
+        <td>${formatCurrency(emi)}</td>
+        <td>${formatCurrency(principal)}</td>
+        <td>${formatCurrency(interest)}</td>
+        <td>${formatCurrency(Math.abs(balance))}</td>
+      </tr>
+    `;
+
+    tbody.innerHTML += row;
+  }
+}
 
 document.querySelectorAll("input").forEach(input => {
   input.addEventListener("input", calculateEMI);
 });
 
 calculateEMI();
+
+
