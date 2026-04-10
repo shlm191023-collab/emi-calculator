@@ -11,7 +11,7 @@ function animateEMI(value) {
   }, 150);
 }
 
-function calculateEMI() {
+/*function calculateEMI() {
   let P = document.getElementById("loan").value;
   let annualRate = document.getElementById("rate").value;
   let years = document.getElementById("years").value;
@@ -31,6 +31,31 @@ function calculateEMI() {
   // Chart
   updateChart(P, totalInterest);
   
+  animateEMI(emi);
+} */
+function calculateEMI() {
+  let P = Number(document.getElementById("loan").value);
+  let annualRate = Number(document.getElementById("rate").value);
+  let years = Number(document.getElementById("years").value);
+
+  let r = annualRate / 12 / 100;
+  let n = years * 12;
+
+  let emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+
+  let totalPayment = emi * n;
+  let totalInterest = totalPayment - P;
+
+  document.getElementById("emi").innerText = formatCurrency(Math.round(emi));
+  document.getElementById("loanValue").innerText = formatCurrency(P);
+  document.getElementById("rateValue").innerText = annualRate + "%";
+  document.getElementById("yearsValue").innerText = years;
+
+  document.getElementById("principalValue").innerText = formatCurrency(P);
+  document.getElementById("interestValue").innerText = formatCurrency(Math.round(totalInterest));
+
+  updateChart(P, totalInterest);
+
   animateEMI(emi);
 }
 function updateChart(principal, interest) {
