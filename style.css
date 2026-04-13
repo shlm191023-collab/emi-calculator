@@ -87,7 +87,7 @@ body {
 }
 
 .input-group label {
-  font-size: 13px;
+  font-size: 17px;
   opacity: 0.7;
 }
 
@@ -179,11 +179,18 @@ input[type=range]::-moz-range-thumb {
   color: #22d3ee;
   text-decoration: none;
   transition: 0.3s;
+  color: #22d3ee;
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(34, 211, 238, 0.1);
+  transition: 0.3s;
 }
 
 .content a:hover {
   color: #38bdf8;
   text-decoration: underline;
+  background: rgba(34, 211, 238, 0.25);
 }
 
 .breakdown {
@@ -565,4 +572,74 @@ body.three-lakh {
     font-size: 13px;
   }
 
+}
+
+.value-input {
+  width: 120px;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  outline: none;
+  transition: 0.3s;
+}
+
+.value-input.error {
+  border: 2px solid #ff4d4f;
+  background: rgba(255, 77, 79, 0.1);
+}
+
+.error-text {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff4d4f;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.more-links a {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(34, 211, 238, 0.1);
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.more-links a:hover {
+  background: rgba(34, 211, 238, 0.25);
 }

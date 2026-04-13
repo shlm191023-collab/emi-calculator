@@ -1,12 +1,178 @@
 let chart;
 let showAll = false;
+let isTyping = false;
+let typingTimer;
 const emiEl = document.getElementById("emi");
+const toast = document.getElementById("toast");
 
 const isTenLakhPage = window.location.pathname.includes("ten-lakh");
 const isFiveLakhPage = window.location.pathname.includes("five-lakh");
 
 const loanSlider = document.getElementById("loan");
 const loanValue = document.getElementById("loanValue");
+
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+
+function formatIndianNumber(value) {
+  if (!value) return "";
+
+  let num = value.replace(/,/g, "");
+
+  if (isNaN(num)) return "";
+
+  return Number(num).toLocaleString("en-IN");
+}
+
+function validateLoanInput(num) {
+  if (!num || num < 50000) {
+    loanValue.classList.add("error");
+    return false;
+  }
+
+  loanValue.classList.remove("error");
+  return true;
+}
+
+
+
+
+loanValue.addEventListener("focus", () => {
+  isTyping = true;
+});
+
+loanValue.addEventListener("blur", () => {
+  isTyping = false;
+});
+
+// INPUT → SLIDER
+const errorText = document.getElementById("loanError");
+
+/*loanValue.addEventListener("input", () => {
+  let val = loanValue.value;
+
+  if (val === "") {
+    loanValue.classList.remove("error");
+    return;
+  }
+
+  let num = parseInt(val);
+
+  if (num < 50000) {
+    loanValue.classList.add("error");
+    showToast("Minimum value must be ₹50,000");
+  } else {
+    loanValue.classList.remove("error");
+    loanSlider.value = num;
+  }
+  
+}); */
+
+/*loanValue.addEventListener("input", () => {
+  clearTimeout(typingTimer);
+
+  let val = loanValue.value;
+
+  // Allow empty typing (no error, no calculation)
+  if (val === "") {
+    loanValue.classList.remove("error");
+    return;
+  }
+
+  let num = parseInt(val);
+
+  // Debounce (wait for user to finish typing)
+  typingTimer = setTimeout(() => {
+
+    if (num < 50000) {
+      loanValue.classList.add("error");
+      showToast("Minimum value must be ₹50,000");
+      return;
+    }
+
+    // ✅ VALID FLOW
+    loanValue.classList.remove("error");
+
+    // Sync slider
+    loanSlider.value = num;
+
+    // 🔥 Force update everywhere
+    calculateEMI();
+
+  }, 300); // delay for smooth UX
+}); */
+
+loanValue.addEventListener("input", (e) => {
+  clearTimeout(typingTimer);
+
+  let input = e.target;
+
+  // remove commas
+  let raw = input.value.replace(/,/g, "");
+
+  // allow only numbers
+  if (!/^\d*$/.test(raw)) return;
+
+  // save cursor
+  let cursorPos = input.selectionStart;
+
+  // format value
+  let formatted = formatIndianNumber(raw);
+  input.value = formatted;
+
+  // restore cursor
+  let diff = formatted.length - raw.length;
+  input.setSelectionRange(cursorPos + diff, cursorPos + diff);
+
+  if (raw === "") {
+    loanValue.classList.remove("error");
+    return;
+  }
+
+  let num = parseInt(raw);
+
+  typingTimer = setTimeout(() => {
+
+    if (!validateLoanInput(num)) {
+      loanValue.classList.add("error");
+      showToast("Minimum value must be ₹50,000");
+      return;
+    }
+
+    // ✅ VALID
+    loanValue.classList.remove("error");
+
+    loanSlider.value = num;
+
+    calculateEMI();
+
+  }, 300);
+});
+
+loanValue.addEventListener("change", () => {
+  let val = parseInt(loanValue.value);
+
+  if (!val || val < 50000) {
+    loanValue.classList.add("error");
+    return;
+  }
+
+  if (val > loanSlider.max) {
+    val = loanSlider.max;
+  }
+
+  loanValue.value = val;
+  loanSlider.value = val;
+
+  calculateEMI();
+});
 
 if (isTenLakhPage) {
   if (loanSlider) loanSlider.value = 1000000;
@@ -18,9 +184,33 @@ if (isFiveLakhPage) {
   loanValue.innerText = "₹5,00,000";
 }
 
-if (loanSlider && !isTenLakhPage && !isFiveLakhPage) {
+/*if (loanSlider && !isTenLakhPage && !isFiveLakhPage) {
   loanSlider.addEventListener("input", calculateEMI);
+}*/
+
+if (loanSlider && !isTenLakhPage && !isFiveLakhPage) {
+  /*loanSlider.addEventListener("input", () => {
+    const val = parseInt(loanSlider.value);
+
+    loanValue.value = val;
+
+    // FULL RESET
+    loanValue.classList.remove("error");
+
+    calculateEMI();
+  }); */
+
+  loanSlider.addEventListener("input", () => {
+    const val = parseInt(loanSlider.value);
+
+    loanValue.value = formatIndianNumber(String(val));
+
+    loanValue.classList.remove("error");
+
+    calculateEMI();
+  });
 }
+
 
 function formatCurrency(num, type = "ui") {
   const value = Math.round(num).toLocaleString("en-IN");
@@ -165,9 +355,11 @@ function downloadPDF() {
 
 function generateYearlyTable(P, r, n, emi) {
   let balance = P;
+  showAll = false;
 
   const container = document.getElementById("yearContainer");
   const btn = document.getElementById("toggleYearsBtn");
+  btn.textContent = "Show More";
 
   container.innerHTML = "";
 
@@ -180,7 +372,7 @@ function generateYearlyTable(P, r, n, emi) {
 
   // Calculate total years needed including partial first and last year
   let totalYears = Math.ceil((startMonth + n) / 12);
-  let showAll = false;
+
 
   for (let y = 0; y < totalYears; y++) {
 
@@ -263,11 +455,17 @@ function generateYearlyTable(P, r, n, emi) {
     container.appendChild(yearBlock);
   }
 
+  document.querySelectorAll(".year-block").forEach((block, index) => {
+    if (index >= 3) {
+      block.style.display = "none";
+    }
+  });
+
   // Show button only if >5 years
   if (totalYears > 5) {
     btn.style.display = "block";
 
-    btn.onclick = () => {
+    /*btn.onclick = () => {
       showAll = !showAll;
 
       document.querySelectorAll(".year-block").forEach((block, index) => {
@@ -277,6 +475,19 @@ function generateYearlyTable(P, r, n, emi) {
       });
 
       btn.innerText = showAll ? "Show Less" : "Show More";
+    };*/
+    btn.onclick = () => {
+      showAll = !showAll;
+
+      const blocks = document.querySelectorAll(".year-block");
+
+      blocks.forEach((block, index) => {
+        if (index >= 3) {
+          block.style.display = showAll ? "block" : "none";
+        }
+      });
+
+      btn.textContent = showAll ? "Show Less" : "Show More";
     };
   } else {
     btn.style.display = "none";
@@ -330,6 +541,12 @@ function generatePDFTable(P, r, n, emi) {
   document.getElementById("pdfTable").innerHTML = table;
 }
 function calculateEMI() {
+  let raw = loanValue.value.replace(/,/g, "");
+  let currentVal = parseInt(raw);
+
+  // 🔥 re-validate on every calculation
+  validateLoanInput(currentVal);
+
   let P = Number(document.getElementById("loan").value);
   let annualRate = Number(document.getElementById("rate").value);
   let years = Number(document.getElementById("years").value);
@@ -343,9 +560,12 @@ function calculateEMI() {
   let totalInterest = totalPayment - P;
 
   document.getElementById("emi").innerText = formatCurrency(Math.round(emi));
-  document.getElementById("loanValue").innerText = formatCurrency(P);
   document.getElementById("rateValue").innerText = annualRate + "%";
   document.getElementById("yearsValue").innerText = years;
+  /*document.getElementById("loanValue").innerText = formatCurrency(P);*/
+  if (!isTyping && loanValue.value !== "") {
+    loanValue.value = formatIndianNumber(String(P));
+  }
 
   document.getElementById("principalValue").innerText = formatCurrency(P);
   document.getElementById("interestValue").innerText = formatCurrency(Math.round(totalInterest));
@@ -427,10 +647,14 @@ function updateChart(principal, interest) {
     chart.update('active'); // 🔥 smooth transition
   }
 }
+
 document.querySelectorAll("input").forEach(input => {
   input.addEventListener("input", calculateEMI);
 });
 
 window.onload = function () {
+  const defaultLoan = parseInt(loanSlider.value);
+  loanValue.value = formatIndianNumber(String(defaultLoan));
   calculateEMI();
+
 };
