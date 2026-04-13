@@ -31,7 +31,7 @@
 
     <div class="header">
       <h1>EMI Calculator</h1>
-      <p>Calculate your monthly loan EMI instantly • Based on reducing balance method </p>
+      <p>Calculate your monthly loan EMI instantly • Download Amortization Details • Based on reducing balance method </p>
     </div>
     <div class="top-section">
       <div class="card">
@@ -45,15 +45,16 @@
         <!-- LOAN -->
         <div class="input-group">
           <label>Loan Amount</label>
-          <div class="value" id="loanValue"></div>
-          <input type="range" id="loan" min="100000" max="10000000" step="10000" value="1000000">
+          <!--<div class="value" id="loanValue"></div>-->
+          <input type="text" id="loanValue" class="value-input">
+          <input type="range" id="loan" min="50000" max="200000000" step="100000" value="1000000">
         </div>
 
         <!-- INTEREST -->
         <div class="input-group">
           <label>Interest Rate (%)</label>
           <div class="value" id="rateValue"></div>
-          <input type="range" id="rate" min="1" max="20" step="0.1" value="8">
+          <input type="range" id="rate" min="1" max="30" step="0.1" value="8">
         </div>
 
         <!-- TENURE -->
@@ -104,21 +105,29 @@
         Tenure: 5 years<br><br>
         Monthly EMI: ₹20,276
       </p>
-
       <h3>What is EMI?</h3>
       <p>
         EMI (Equated Monthly Installment) is the fixed amount you pay every month towards your loan, including both
-        principal and interest.
+        principal and interest. <br>
+
+        <strong><i>Loan Amount: </i></strong>The original amount of money borrowed.<br>
+
+        <strong><i>Interest Rate: </i></strong>The percentage charged on the principal amount, which can be Fixed (constant)
+        or Floating (varies with market rates).<br>
+
+        <strong><i>Tenure: </i></strong>The total duration within which the loan must be repaid.<br>
+
+        <strong><i>Total Amount: </i></strong>The sum of the principal and interest paid over the entire loan tenure.
       </p>
-      <!--<h3>Related Calculators</h3> -->
-      <h3>Try our other calculators</h3>
+     
+      <h3>Try Related Calculators</h3>
       <ul>
-        <a href="./home-loan-emi-calculator.html" aria-orientation="horizontal">Home Loan EMI Calculator </a> <span> • </span>
-        <a href="./personal-loan-emi-calculator.html" aria-orientation="horizontal">Personal Loan EMI Calculator </a> <span> • </span>
-        <a href="./car-loan-emi-calculator.html" aria-orientation="horizontal">Car Loan EMI Calculator </a> <span> • </span>
-        <a href="./ten-lakh-emi-calculator.html" aria-orientation="horizontal">₹10 Lakh EMI Calculator </a>  <span> • </span> <br>
-        <a href="./five-lakh-emi-calculator.html" aria-orientation="horizontal">₹5 Lakh EMI Calculator </a>  <span> • </span>
-        <a href="./three-lakh-emi-calculator.html" aria-orientation="horizontal">₹3 Lakh EMI Calculator </a>  <span> • </span> 
+        <a href="./home-loan-emi-calculator.html" aria-orientation="horizontal">Home Loan EMI Calculator </a>
+        <a href="./personal-loan-emi-calculator.html" aria-orientation="horizontal">Personal Loan EMI Calculator </a>
+        <a href="./car-loan-emi-calculator.html" aria-orientation="horizontal">Car Loan EMI Calculator </a>
+        <a href="./ten-lakh-emi-calculator.html" aria-orientation="horizontal">₹10 Lakh EMI Calculator </a>
+        <a href="./five-lakh-emi-calculator.html" aria-orientation="horizontal">₹5 Lakh EMI Calculator </a>
+        <a href="./three-lakh-emi-calculator.html" aria-orientation="horizontal">₹3 Lakh EMI Calculator </a>
         <a href="./two-lakh-emi-calculator.html" aria-orientation="horizontal">₹2 Lakh EMI Calculator </a> 
         
       </ul>
@@ -132,10 +141,10 @@
     <div class="more-links" align="center">
       <ul>
         <p>
-          <a href="./about.html" class="info">About</a> •
-          <a href="./privacy.html" class="info">Privacy Policy</a> •
-          <a href="./terms.html" class="info">Terms of Use</a> •
-          <a href="./disclaimer.html" class="info">Disclaimer</a> •
+          <a href="./about.html" class="info">About</a>
+          <a href="./privacy.html" class="info">Privacy Policy</a>
+          <a href="./terms.html" class="info">Terms of Use</a>
+          <a href="./disclaimer.html" class="info">Disclaimer</a>
           <a href="./contact.html" class="info">Contact</a>
         </p>
       </ul>
@@ -144,7 +153,8 @@
   <p style="font-size:12px; opacity:0.6;">
     © 2026 EMI Calculator India • All rights reserved
   </p>
-  <script src="./script.js"></script>
+  <script defer src="./script.js"></script>
+  <div id="toast" class="toast"></div>
 
 </body>
 
