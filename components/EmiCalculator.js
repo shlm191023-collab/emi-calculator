@@ -43,17 +43,20 @@ export default function EmiCalculator({ type, initialLoan }) {
     };
   }, []);
 
+  const initialLoanValue = typeof initialLoan === "number" ? initialLoan : Number(initialLoan);
+  const safeInitialLoan = Number.isFinite(initialLoanValue) && initialLoanValue > 0 ? Math.round(initialLoanValue) : null;
+  const defaultLoan =
+    safeInitialLoan ??
+    (type === "personal"
+      ? 500000
+      : type === "home"
+      ? 2000000
+      : type === "loan"
+      ? 500000
+      : 800000);
+
   const defaults = {
-    loan:
-      typeof initialLoan === "number" && initialLoan > 0
-        ? Math.round(initialLoan)
-        : type === "personal"
-        ? 500000
-        : type === "home"
-        ? 2000000
-        : type === "loan"
-        ? 500000
-        : 800000,
+    loan: defaultLoan,
     rate:
       type === "personal"
         ? 12
@@ -102,6 +105,12 @@ export default function EmiCalculator({ type, initialLoan }) {
   const [yearsText, setYearsText] = useState(() => String(defaults.years));
 
   useEffect(() => {
+    if (safeInitialLoan && loan !== safeInitialLoan) {
+      setLoan(safeInitialLoan);
+    }
+  }, [safeInitialLoan, loan]);
+
+  useEffect(() => {
     if (typeof loan === "number" && loan > 0) {
       setLoanText(formatIndianNumber(loan));
     }
@@ -135,8 +144,8 @@ export default function EmiCalculator({ type, initialLoan }) {
             ? "Home Loan EMI Calculator"
             : type === "personal"
             ? "Personal Loan EMI Calculator"
-            : initialLoan
-            ? `₹${formatIndianNumber(initialLoan)} Loan EMI Calculator`
+            : safeInitialLoan
+            ? `₹${formatIndianNumber(safeInitialLoan)} Loan EMI Calculator`
             : "Loan EMI Calculator"}
         </h1>
         <p>

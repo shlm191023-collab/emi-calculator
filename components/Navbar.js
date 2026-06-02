@@ -14,6 +14,7 @@ export default function Navbar({ type }) {
 
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const leaveTimerRef = useRef(null);
 
   useEffect(() => {
     const onDocClick = (e) => {
@@ -24,6 +25,21 @@ export default function Navbar({ type }) {
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
   }, []);
+
+  // helpers to keep dropdown open when moving between trigger and menu
+  const handleMouseEnter = () => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    // small delay to allow moving into menu without closing
+    // make delay more forgiving
+    leaveTimerRef.current = setTimeout(() => setOpen(false), 400);
+  };
 
   return (
     <div className="navbar">
@@ -63,12 +79,22 @@ export default function Navbar({ type }) {
       <Link href="/emi/1000000">₹10L Loan</Link>
 
       {/* 🔥 MORE DROPDOWN (click to toggle) */}
-      <div className={`dropdown ${open ? "open" : ""}`} ref={ref}>
-        <span className="nav_more" onClick={() => setOpen((v) => !v)}>
+      <div
+        className={`dropdown ${open ? "open" : ""}`}
+        ref={ref}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <span
+          className="nav_more"
+          onClick={() => setOpen((v) => !v)}
+          role="button"
+          tabIndex={0}
+        >
           More ▾
         </span>
 
-        <div className="dropdown-menu">
+        <div className="dropdown-menu" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           {moreLinks.map((item, i) => (
             <Link key={i} href={item.href} onClick={() => setOpen(false)}>
               {item.label}

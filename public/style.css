@@ -435,10 +435,12 @@ body.three-lakh {
 }
 
 .navbar {
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 25px;
-  padding: 15px;
+  padding: 15px 18px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
 }

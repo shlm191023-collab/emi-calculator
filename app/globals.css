@@ -5,6 +5,15 @@ body {
   color: white;
 }
 
+.navbar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  padding: 15px 18px;
+}
+
 /* CENTER */
 .wrapper {
   display: flex;
@@ -1330,25 +1339,10 @@ input:disabled {
   transition: 0.2s ease;
 }
 
-/* show */
-.dropdown:hover .dropdown-menu {
-  opacity: 1;
-  visibility: visible;  
-}
-
-/* also allow explicit open state (JS toggled) */
+/* Only show via JS-open state to avoid hover flicker when moving to menu */
 .dropdown.open .dropdown-menu {
   opacity: 1;
   visibility: visible;
-}
-
-.dropdown::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 12px;
 }
 
 /* links */
